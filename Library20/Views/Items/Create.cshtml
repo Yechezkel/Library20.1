@@ -2,37 +2,85 @@
 
 @{
     ViewData["Title"] = "Create";
+    int CurrSlfId = ViewBag.CurrSlfId;
+}
+@if (ViewBag.One)
+{
+    <h1>הוסף ספר חדש</h1>
+}
+else
+{
+    <h1>הוסף סט ספרים חדש</h1>
 }
 
-<h1>Create</h1>
-
-<h4>Item</h4>
+<h4>מלא את השדות הבאים</h4>
+@if (ViewBag.CurrSlfId != 0)
+{
+    <h6>@CurrSlfId מדף</h6>
+}
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            @if (ViewBag.CurrSlfId != 0)
+            {
+                <div class="form-group">
+                    <label asp-for="ShelfId" class="control-label">בחר מדף</label>
+                    <select asp-for="ShelfId" class="form-control">
+                        @foreach (var item in ViewBag.ShelfId)
+                        {
+                            if (item.Text == ""+CurrSlfId)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="ShelfId" class="control-label">בחר מדף</label>
+                    <select asp-for="ShelfId" class="form-control" asp-items="ViewBag.ShelfId"></select>
+                </div>
+            }
+
             <div class="form-group">
-                <label asp-for="ShelfId" class="control-label"></label>
-                <select asp-for="ShelfId" class ="form-control" asp-items="ViewBag.ShelfId"></select>
+                <label asp-for="ItemName" class="control-label"></label>
+                <input asp-for="ItemName" class="form-control" />
+                <span asp-validation-for="ItemName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BookHeight" class="control-label"></label>
-                <input asp-for="BookHeight" class="form-control" />
+                <label asp-for="BookHeight" class="control-label">גובה ספר בס"מ</label>
+                <input asp-for="BookHeight" class="form-control" min="1" value="1" />
                 <span asp-validation-for="BookHeight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BookWidth" class="control-label"></label>
-                <input asp-for="BookWidth" class="form-control" />
+                <label asp-for="BookWidth" class="control-label">רוחב ספר בס"מ</label>
+                <input asp-for="BookWidth" class="form-control" min="1" value="1" />
                 <span asp-validation-for="BookWidth" class="text-danger"></span>
             </div>
+            @if (ViewBag.One)
+            {
+                <div class="form-group">
+                    <label asp-for="Pieces" class="control-label">מספר כרכים</label>
+                    <input asp-for="Pieces" class="form-control" min="1" max="1" value="1" />
+                    <span asp-validation-for="Pieces" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="Pieces" class="control-label">מספר כרכים</label>
+                    <input asp-for="Pieces" class="form-control" min="2" value="2" />
+                    <span asp-validation-for="Pieces" class="text-danger"></span>
+                </div>
+            }
+            
             <div class="form-group">
-                <label asp-for="Pieces" class="control-label"></label>
-                <input asp-for="Pieces" class="form-control" />
-                <span asp-validation-for="Pieces" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="צור" class="btn btn-primary" />
             </div>
         </form>
     </div>

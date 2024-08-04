@@ -20,10 +20,25 @@ namespace Library20.Controllers
         }
 
         // GET: Items
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? slfId ,int? width, int? height )
         {
-            var library20Context = _context.Item.Include(i => i.Shelf);
-            return View(await library20Context.ToListAsync());
+            if (slfId != null)
+            {
+
+               
+                ViewBag.CurrSlfId = slfId;
+                ViewBag.Height = height;
+                ViewBag.Width = width;
+
+
+
+
+                var library20Context2 = _context.Item.Include(i => i.Shelf).Where(i => i.ShelfId == slfId.Value);
+                return View(await library20Context2.ToListAsync());
+            }
+            ViewBag.CurrSlfId = 0;
+            var library20Context1 = _context.Item.Include(i => i.Shelf);
+            return View(await library20Context1.ToListAsync());
         }
 
         // GET: Items/Details/5
@@ -46,8 +61,14 @@ namespace Library20.Controllers
         }
 
         // GET: Items/Create
-        public IActionResult Create()
+        public IActionResult Create(int? slfId, bool? one)
         {
+
+            if (slfId != null)
+                ViewBag.CurrSlfId = slfId;
+            else
+                ViewBag.CurrSlfId = 0;
+            ViewBag.One = one;
             ViewData["ShelfId"] = new SelectList(_context.Shelf, "ShelfId", "ShelfId");
             return View();
         }
@@ -57,8 +78,9 @@ namespace Library20.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ItemId,ShelfId,BookHeight,BookWidth,Pieces")] Item item)
+        public async Task<IActionResult> Create([Bind("ItemId,ShelfId,BookHeight,BookWidth,Pieces,ItemName")] Item item)
         {
+            ModelState.Remove("Shelf");
             if (ModelState.IsValid)
             {
                 _context.Add(item);
@@ -91,8 +113,9 @@ namespace Library20.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ItemId,ShelfId,BookHeight,BookWidth,Pieces")] Item item)
+        public async Task<IActionResult> Edit(int id, [Bind("ItemId,ShelfId,BookHeight,BookWidth,Pieces,ItemName")] Item item)
         {
+
             if (id != item.ItemId)
             {
                 return NotFound();

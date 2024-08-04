@@ -35,6 +35,10 @@ namespace Library20.Migrations
                     b.Property<int>("BookWidth")
                         .HasColumnType("int");
 
+                    b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Pieces")
                         .HasColumnType("int");
 

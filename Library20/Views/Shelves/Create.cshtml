@@ -2,20 +2,98 @@
 
 @{
     ViewData["Title"] = "Create";
+    string libraryName = ViewBag.CurrLibName;
 }
 
-<h1>Create</h1>
+<h1>צור מדף חדש</h1>
 
-<h4>Shelf</h4>
+<h4>מלא את השדות הבאים</h4>
+<h6>@libraryName</h6>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (ViewBag.CurrLibId != 0)
+            {
+                <div class="form-group">
+                    <label asp-for="LibraryId" class="control-label">בחר ספרייה</label>
+                    <select asp-for="LibraryId" class="form-control">
+                        @foreach (var item in ViewBag.LibraryId)
+                        {
+                            if (item.Text == libraryName)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="LibraryId" class="control-label">בחר ספרייה</label>
+                    <select asp-for="LibraryId" class="form-control" asp-items="ViewBag.LibraryId" >
+                    </select>
+                </div>
+            }
             <div class="form-group">
-                <label asp-for="LibraryId" class="control-label"></label>
-                <select asp-for="LibraryId" class ="form-control" asp-items="ViewBag.LibraryId"></select>
+                <label asp-for="ShelfHeight" class="control-label">גובה מדף בס"מ</label>
+                <input asp-for="ShelfHeight" class="form-control" min="1" value="1" />
+                <span asp-validation-for="ShelfHeight" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="ShelfWidth" class="control-label">רוחב מדף בס"מ</label>
+                <input asp-for="ShelfWidth" class="form-control" min="1" value="1" />
+                <span asp-validation-for="ShelfWidth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+
+
+
+@*@model Library10.Models.Shelf
+
+@{
+    ViewData["Title"] = "Create";
+
+}
+
+<h1>צור מדף חדש</h1>
+
+<h4>מלא את השדות הבאים</h4>
+<h3>@ViewBag.CurrLibName</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="LibraryId" class="control-label">בחר ספרייה</label>
+                <select asp-for="LibraryId" class="form-control" asp-items="ViewBag.LibraryId" disabled=@(ViewBag.CurrLibId != 0 ? "disabled" : "")>
+                    @if (ViewBag.CurrLibId != 0)
+                    {
+                        <option selected="selected">@ViewBag.CurrLibName</option>
+                    }
+                </select>
+            </div>
+
             <div class="form-group">
                 <label asp-for="ShelfHeight" class="control-label"></label>
                 <input asp-for="ShelfHeight" class="form-control" />
@@ -29,6 +107,7 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+
         </form>
     </div>
 </div>
@@ -38,5 +117,8 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+*@

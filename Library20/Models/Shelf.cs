@@ -13,6 +13,7 @@ namespace Library10.Models
 
 
         public int LibraryId { get; set; }
+        [Display(Name = "ספרייה")]
         public Library Library { get; set; }
 
 
@@ -31,7 +32,7 @@ namespace Library10.Models
 
 
         [NotMapped, Display(Name = "ספרים, סטים")]
-        public List<Item> Items { get; set; }
+        public List<Item>? Items { get; set; }
 
     }
 }

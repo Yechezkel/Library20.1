@@ -11,10 +11,10 @@ namespace Library10.Models
         [Key, Display(Name = "מזהה פריט")]
         public int ItemId { get; set; }
 
-
-
+        
 
         public int ShelfId { get; set; }
+        [Display(Name = "מדף")]
         public Shelf Shelf { get; set; }
 
 
@@ -25,8 +25,11 @@ namespace Library10.Models
         [Required, Display(Name = "רוחב פריט")]
         public int BookWidth { get; set; }
 
-        [Display(Name = "מספר ספרים")]
+        [Display(Name = "מספר כרכים")]
         public int Pieces { get; set; }
+
+        [Required, Display(Name = "שם פריט")]
+        public string ItemName { get; set; }
 
 
 

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library20.Migrations
 {
     [DbContext(typeof(Library20Context))]
-    [Migration("20240801062803_migration1")]
-    partial class migration1
+    [Migration("20240801070425_migration3")]
+    partial class migration3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,10 @@ namespace Library20.Migrations
 
                     b.Property<int>("BookWidth")
                         .HasColumnType("int");
+
+                    b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Pieces")
                         .HasColumnType("int");

@@ -20,11 +20,24 @@ namespace Library20.Controllers
         }
 
         // GET: Shelves
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? libId , string? libName)
         {
-            var library20Context = _context.Shelf.Include(s => s.Library);
-            return View(await library20Context.ToListAsync());
+            ViewBag.CurrLibId = 0;
+            
+            if (libId!= null) 
+            {
+                ViewBag.CurrLibName = libName;
+                ViewBag.CurrLibId = libId;
+                ViewBag.IsPublic = false;
+                var library20Context2 = _context.Shelf.Include(s => s.Library).Where(s => s.LibraryId == libId.Value);
+                return View(await library20Context2.ToListAsync());
+            }
+            
+            var library20Context1 = _context.Shelf.Include(s => s.Library);
+            return View(await library20Context1.ToListAsync());
         }
+
+
 
         // GET: Shelves/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -46,19 +59,29 @@ namespace Library20.Controllers
         }
 
         // GET: Shelves/Create
-        public IActionResult Create()
+        public IActionResult Create(int? libId, string? libName)
         {
+            if (libId != null)
+            {
+                ViewBag.CurrLibId = libId;
+                ViewBag.CurrLibName = libName;
+            }
+            else
+                ViewBag.CurrLibId = 0;
+
             ViewData["LibraryId"] = new SelectList(_context.Library, "LibraryId", "LibraryName");
             return View();
         }
 
         // POST: Shelves/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ShelfId,LibraryId,ShelfHeight,ShelfWidth")] Shelf shelf)
         {
+            
+            ModelState.Remove("Library");
             if (ModelState.IsValid)
             {
                 _context.Add(shelf);

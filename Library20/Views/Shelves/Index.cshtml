@@ -1,17 +1,30 @@
 ﻿@model IEnumerable<Library10.Models.Shelf>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "מדפים";
+    
 }
 
-<h1>Index</h1>
 
+@if(ViewBag.CurrLibId!=0)
+{
+    <h1> מדפים בספרייה זו</h1>
+    <a asp-controller="Shelves" asp-action="Create" asp-route-libId=@ViewBag.CurrLibId asp-route-libName=@ViewBag.CurrLibName>הוסף מדף חדש לספרייה זו</a>
+}
+else
+{
+    <h1>מדפים</h1>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">הוסף מדף חדש</a>
 </p>
+}
+
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ShelfId)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Library)
             </th>
@@ -26,7 +39,11 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
+           
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShelfId)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Library.LibraryName)
             </td>
@@ -36,12 +53,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ShelfWidth)
             </td>
+            
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ShelfId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ShelfId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ShelfId">Delete</a>
+                @* <a asp-action="Edit" asp-route-id="@item.ShelfId">Edit</a> | *@
+                    @* <a asp-action="Delete" asp-route-id="@item.ShelfId">Delete</a> *@
+                    <a asp-controller="Items" asp-action="Index" asp-route-slfId=@item.ShelfId asp-route-height=@item.ShelfHeight asp-route-width=@item.ShelfWidth>ספרים במדף זה</a> @* |
+                <a asp-controller="Items" asp-action="Index" >ספרים במדף זה</a> @* |123123  asp-route-shelf =@item
+                    <a asp-controller="Items" asp-action="Create" asp-route-slfId=@item.ShelfId asp-route-one=@false>הוסף סט ספרים למדף זה</a> |
+                    <a asp-controller="Items" asp-action="Create" asp-route-slfId=@item.ShelfId asp-route-one=@true>הוסף ספר בודד למדף זה</a> *@
+                
             </td>
-        </tr>
+        </tr>   
 }
     </tbody>
 </table>

@@ -4,10 +4,13 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
+<h1>פרטים</h1>
+<td>
+    <a asp-controller="Shelves"  asp-action="Create">הוסף מדף</a> |
+    <a asp-controller="Shelves" asp-action="Details">מדפים</a> |
+</td>
 <div>
-    <h4>Library</h4>
+    <h4>@Html.DisplayFor(model => model.LibraryName)</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -19,6 +22,5 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.LibraryId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">חזרה</a>
 </div>

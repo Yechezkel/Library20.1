@@ -5,7 +5,7 @@
 namespace Library20.Migrations
 {
     /// <inheritdoc />
-    public partial class migration1 : Migration
+    public partial class migration3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,7 +53,8 @@ namespace Library20.Migrations
                     ShelfId = table.Column<int>(type: "int", nullable: false),
                     BookHeight = table.Column<int>(type: "int", nullable: false),
                     BookWidth = table.Column<int>(type: "int", nullable: false),
-                    Pieces = table.Column<int>(type: "int", nullable: false)
+                    Pieces = table.Column<int>(type: "int", nullable: false),
+                    ItemName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
